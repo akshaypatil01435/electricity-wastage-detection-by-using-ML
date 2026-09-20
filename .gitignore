@@ -1,0 +1,40 @@
+# Secrets & Environment
+.env
+.env.*
+!.env.example
+*.env.local
+
+# IDE & OS
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.iml
+.DS_Store
+Thumbs.db
+
+# Build Artifacts & Dependencies
+target/
+**/target/
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+build/
+**/build/
+
+# Logs
+*.log
+**/logs/
+
+# Python Virtual Environments & Caches
+__pycache__/
+**/__pycache__/
+*.pyc
+.venv/
+**/.venv/
+venv/
+**/venv/
+.pytest_cache/
+**/.pytest_cache/
+ml-service/models/*
+!ml-service/models/.gitkeep
