@@ -126,7 +126,7 @@ const ContactPage = () => {
             <div className="space-y-3 text-xs text-slate-600 dark:text-slate-400">
               <div className="flex items-start gap-3">
                 <Mail className="w-4 h-4 text-forest-700 dark:text-emerald-400 shrink-0 mt-0.5" />
-                <span>support@wattguard.io</span>
+                <span>support@wattvision.ai</span>
               </div>
               <div className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-forest-700 dark:text-emerald-400 shrink-0 mt-0.5" />

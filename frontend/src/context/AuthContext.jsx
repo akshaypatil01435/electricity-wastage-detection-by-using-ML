@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { authService } from '../services/authService';
-import { USER_ROLES } from '../utils/constants';
+import { USER_ROLES, APP_CONFIG } from '../utils/constants';
 
 const AuthContext = createContext(null);
 
@@ -9,16 +9,46 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check initial user in localStorage or default to demo user for frictionless experience
+    // REAL MODE: the session comes only from a JWT verified by the backend. No default user.
+    if (!APP_CONFIG.demoMode) {
+      let cancelled = false;
+      const token = localStorage.getItem('wattvision_jwt_token');
+      if (!token) {
+        setLoading(false);
+      } else {
+        authService.fetchCurrentUser()
+          .then((me) => {
+            if (cancelled) return;
+            setUser(me);
+            localStorage.setItem('wattvision_user', JSON.stringify(me));
+          })
+          .catch(() => {
+            if (cancelled) return;
+            localStorage.removeItem('wattvision_jwt_token');
+            localStorage.removeItem('wattvision_user');
+            setUser(null);
+          })
+          .finally(() => {
+            if (!cancelled) setLoading(false);
+          });
+      }
+      const onUnauthorized = () => setUser(null);
+      window.addEventListener('wattvision:unauthorized', onUnauthorized);
+      return () => {
+        cancelled = true;
+        window.removeEventListener('wattvision:unauthorized', onUnauthorized);
+      };
+    }
+
+    // DEMO MODE: frictionless presentation experience with a default demo user
     const savedUser = authService.getCurrentUser();
     if (savedUser) {
       setUser(savedUser);
     } else {
-      // Default to demo user in demo mode
       const defaultDemoUser = {
         id: "usr_001",
         name: "Akshay Patil",
-        email: "demo@wattguard.io",
+        email: "demo@wattvision.ai",
         role: USER_ROLES.USER,
         avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
         phone: "+91 98765 43210",
@@ -55,11 +85,13 @@ export const AuthProvider = ({ children }) => {
   };
 
   const switchRole = (targetRole) => {
+    // Presentation helper only. Disabled in real mode so nobody can self-promote to admin.
+    if (!APP_CONFIG.demoMode) return;
     if (targetRole === USER_ROLES.ADMIN) {
       const adminUser = {
         id: "adm_001",
         name: "System Administrator",
-        email: "admin@wattguard.io",
+        email: "admin@wattvision.ai",
         role: USER_ROLES.ADMIN,
         avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80",
         phone: "+91 99887 76655",
@@ -77,7 +109,7 @@ export const AuthProvider = ({ children }) => {
       const regularUser = {
         id: "usr_001",
         name: "Akshay Patil",
-        email: "demo@wattguard.io",
+        email: "demo@wattvision.ai",
         role: USER_ROLES.USER,
         avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
         phone: "+91 98765 43210",
@@ -102,7 +134,8 @@ export const AuthProvider = ({ children }) => {
     login,
     register,
     logout,
-    switchRole
+    switchRole,
+    canSwitchRole: APP_CONFIG.demoMode
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

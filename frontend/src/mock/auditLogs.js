@@ -2,7 +2,7 @@ export const MOCK_AUDIT_LOGS = [
   {
     id: "aud_01",
     timestamp: "2026-08-23 10:45:12",
-    actor: "Admin (admin@wattguard.io)",
+    actor: "Admin (admin@wattvision.ai)",
     action: "ML Threshold Calibrated",
     resource: "Isolation Forest Model v1.0",
     details: "Threshold adjusted from 0.65 to 0.60 for heightened anomaly detection sensitivity.",
@@ -22,7 +22,7 @@ export const MOCK_AUDIT_LOGS = [
   {
     id: "aud_03",
     timestamp: "2026-08-22 16:30:22",
-    actor: "Admin (admin@wattguard.io)",
+    actor: "Admin (admin@wattvision.ai)",
     action: "User Account Suspended",
     resource: "User ID: usr_004 (arjun.v@techcorp.io)",
     details: "Suspended due to repeated high abnormal traffic test cycles.",
@@ -32,7 +32,7 @@ export const MOCK_AUDIT_LOGS = [
   {
     id: "aud_04",
     timestamp: "2026-08-22 14:05:10",
-    actor: "User (demo@wattguard.io)",
+    actor: "User (demo@wattvision.ai)",
     action: "Appliance Profile Updated",
     resource: "Appliance ID: app_01 (Air Conditioner)",
     details: "Updated rated power from 1400W to 1500W.",
@@ -42,7 +42,7 @@ export const MOCK_AUDIT_LOGS = [
   {
     id: "aud_05",
     timestamp: "2026-08-21 11:20:00",
-    actor: "Admin (admin@wattguard.io)",
+    actor: "Admin (admin@wattvision.ai)",
     action: "Report Exported (PDF)",
     resource: "Monthly Energy Audit July 2026",
     details: "Downloaded executive summary PDF for board review.",

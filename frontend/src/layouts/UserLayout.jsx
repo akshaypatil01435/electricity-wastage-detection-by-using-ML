@@ -36,7 +36,7 @@ const UserLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const { user, logout, switchRole, isAdmin } = useAuth();
+  const { user, logout, switchRole, isAdmin, canSwitchRole } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const { currentReading, isRunning } = useSimulator();
   const navigate = useNavigate();
@@ -194,7 +194,7 @@ const UserLayout = () => {
               />
               <div className="truncate">
                 <p className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">{user?.name || "Demo User"}</p>
-                <p className="text-[10px] text-slate-400 truncate">{user?.email || "demo@wattguard.io"}</p>
+                <p className="text-[10px] text-slate-400 truncate">{user?.email || "demo@wattvision.ai"}</p>
               </div>
             </div>
             <Link
@@ -302,6 +302,7 @@ const UserLayout = () => {
                     </Link>
                   </div>
 
+                  {canSwitchRole && (
                   <div className="py-1 border-t border-slate-100 dark:border-slate-800">
                     {/* Role Switcher helper */}
                     <button
@@ -314,6 +315,7 @@ const UserLayout = () => {
                       </span>
                     </button>
                   </div>
+                  )}
 
                   <div className="pt-1 border-t border-slate-100 dark:border-slate-800">
                     <button

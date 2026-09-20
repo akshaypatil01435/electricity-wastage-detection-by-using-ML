@@ -11,7 +11,7 @@ const ProfilePage = () => {
 
   const [formData, setFormData] = useState({
     name: user?.name || 'Akshay Patil',
-    email: user?.email || 'demo@wattguard.io',
+    email: user?.email || 'demo@wattvision.ai',
     phone: user?.phone || '+91 98765 43210',
     monthlyGoalKWh: user?.monthlyGoalKWh || 450,
     electricityTariff: user?.electricityTariff || 7.50

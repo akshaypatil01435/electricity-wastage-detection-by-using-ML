@@ -27,7 +27,7 @@ export const adminService = {
     auditLogsState.unshift({
       id: `aud_${Date.now()}`,
       timestamp: new Date().toISOString().replace('T', ' ').substring(0, 19),
-      actor: "Admin (admin@wattguard.io)",
+      actor: "Admin (admin@wattvision.ai)",
       action: "ML Threshold Calibrated",
       resource: "Isolation Forest Model v1.0",
       details: `Threshold updated to ${threshold}.`,
@@ -43,7 +43,7 @@ export const adminService = {
     auditLogsState.unshift({
       id: `aud_${Date.now()}`,
       timestamp: new Date().toISOString().replace('T', ' ').substring(0, 19),
-      actor: "Admin (admin@wattguard.io)",
+      actor: "Admin (admin@wattvision.ai)",
       action: "Model Retraining Executed",
       resource: "Isolation Forest Model v1.0",
       details: "Incremental training epoch completed across 142,500 digital consumption records.",
@@ -66,7 +66,7 @@ export const adminService = {
     auditLogsState.unshift({
       id: `aud_${Date.now()}`,
       timestamp: new Date().toISOString().replace('T', ' ').substring(0, 19),
-      actor: "Admin (admin@wattguard.io)",
+      actor: "Admin (admin@wattvision.ai)",
       action: `User Status: ${newStatus}`,
       resource: `User ID: ${userId}`,
       details: `User account state transitioned to ${newStatus}.`,

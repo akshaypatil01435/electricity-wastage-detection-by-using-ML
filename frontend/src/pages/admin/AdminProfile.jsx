@@ -11,7 +11,7 @@ const AdminProfile = () => {
 
   const [formData, setFormData] = useState({
     name: user?.name || 'System Administrator',
-    email: user?.email || 'admin@wattguard.io',
+    email: user?.email || 'admin@wattvision.ai',
     role: 'ROLE_ADMIN'
   });
 

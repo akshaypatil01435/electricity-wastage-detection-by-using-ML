@@ -7,6 +7,7 @@ import Button from '../../components/common/Button';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import { DEMO_CREDENTIALS } from '../../mock/users';
+import { APP_CONFIG } from '../../utils/constants';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -29,7 +30,10 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
-      const res = await login(email || DEMO_CREDENTIALS.user.email, password || DEMO_CREDENTIALS.user.password);
+      const res = await login(
+        email || (APP_CONFIG.demoMode ? DEMO_CREDENTIALS.user.email : ''),
+        password || (APP_CONFIG.demoMode ? DEMO_CREDENTIALS.user.password : '')
+      );
       toastSuccess(`Welcome back, ${res.user.name}!`);
       if (res.user.role === 'ROLE_ADMIN') {
         navigate('/admin');
@@ -73,7 +77,7 @@ const LoginPage = () => {
             Welcome back
           </h1>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-            Sign in to your WattGuard account
+            Sign in to your WattVision account
           </p>
         </div>
 
@@ -162,7 +166,8 @@ const LoginPage = () => {
           </Link>
         </div>
 
-        {/* Demo Credentials Box matching screenshot media_1787464792995.jpg */}
+        {/* Demo credentials are only shown in demo mode */}
+        {APP_CONFIG.demoMode && (
         <div className="p-4 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/40 border border-emerald-200/70 dark:border-emerald-800/60 text-xs space-y-2">
           <div className="flex items-center justify-between">
             <span className="font-bold text-forest-900 dark:text-emerald-300">Demo credentials</span>
@@ -184,9 +189,10 @@ const LoginPage = () => {
             </div>
           </div>
           <p className="text-slate-600 dark:text-slate-300">
-            Email: <code className="font-mono text-forest-800 dark:text-emerald-400">demo@wattguard.io</code> · Password: <code className="font-mono text-forest-800 dark:text-emerald-400">demo123</code>
+            Email: <code className="font-mono text-forest-800 dark:text-emerald-400">demo@wattvision.ai</code> · Password: <code className="font-mono text-forest-800 dark:text-emerald-400">demo123</code>
           </p>
         </div>
+        )}
       </motion.div>
     </div>
   );

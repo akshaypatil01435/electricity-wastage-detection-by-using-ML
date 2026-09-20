@@ -1,12 +1,13 @@
 export const APP_CONFIG = {
   name: "WattVision AI",
   shortName: "WattVision",
-  brandName: "WattGuard", // As seen in design screenshots
+  brandName: "WattVision",
   tagline: "Detect. Understand. Save.",
   subtitle: "Electricity Wastage Detection Using Machine Learning",
   version: "1.0.0",
   apiBaseUrl: import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api",
-  demoMode: true,
+  // Demo mode is ON by default. Set VITE_DEMO_MODE=false to use the real Spring Boot API.
+  demoMode: import.meta.env.VITE_DEMO_MODE !== 'false',
   currency: "₹",
   tariffPerKWh: 7.50, // Average cost per kWh in INR (configurable)
   disclaimer: "100% Software-based platform operating on digital, simulated, and imported consumption data. No physical IoT hardware required."

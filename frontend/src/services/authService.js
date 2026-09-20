@@ -1,10 +1,18 @@
 import api from './api';
 import { MOCK_USERS, DEMO_CREDENTIALS } from '../mock/users';
-import { USER_ROLES } from '../utils/constants';
+import { USER_ROLES, APP_CONFIG } from '../utils/constants';
+
+const persistSession = ({ token, user }) => {
+  localStorage.setItem('wattvision_jwt_token', token);
+  localStorage.setItem('wattvision_user', JSON.stringify(user));
+  return { user, token };
+};
 
 export const authService = {
   login: async (email, password) => {
-    // In production: return api.post('/auth/login', { email, password });
+    if (!APP_CONFIG.demoMode) {
+      return persistSession(await api.post('/auth/login', { email, password }));
+    }
     await new Promise((res) => setTimeout(res, 400)); // Simulate realistic network delay
 
     // Check against demo credentials
@@ -59,7 +67,9 @@ export const authService = {
   },
 
   register: async (name, email, password) => {
-    // In production: return api.post('/auth/register', { name, email, password });
+    if (!APP_CONFIG.demoMode) {
+      return persistSession(await api.post('/auth/register', { name, email, password }));
+    }
     await new Promise((res) => setTimeout(res, 500));
 
     if (!name || !email || !password) {
@@ -96,8 +106,10 @@ export const authService = {
     }
   },
 
+  fetchCurrentUser: async () => api.get('/auth/me'),
+
   logout: async () => {
-    // In production: return api.post('/auth/logout');
+    // JWT is stateless: logging out just discards the token on the client
     localStorage.removeItem('wattvision_jwt_token');
     localStorage.removeItem('wattvision_user');
     return true;

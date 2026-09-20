@@ -32,7 +32,8 @@ api.interceptors.response.use(
         // Token expired or invalid
         localStorage.removeItem('wattvision_jwt_token');
         localStorage.removeItem('wattvision_user');
-        // Do not force redirect if in demo mode
+        // Let AuthContext know the session is no longer valid
+        window.dispatchEvent(new Event('wattvision:unauthorized'));
       }
       return Promise.reject(error.response.data || { message: error.message });
     } else if (error.request) {

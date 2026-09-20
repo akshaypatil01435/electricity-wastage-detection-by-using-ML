@@ -4,7 +4,7 @@ export const MOCK_USERS = [
   {
     id: "usr_001",
     name: "Akshay Patil",
-    email: "demo@wattguard.io",
+    email: "demo@wattvision.ai",
     role: USER_ROLES.USER,
     avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
     phone: "+91 98765 43210",
@@ -19,7 +19,7 @@ export const MOCK_USERS = [
   {
     id: "adm_001",
     name: "System Administrator",
-    email: "admin@wattguard.io",
+    email: "admin@wattvision.ai",
     role: USER_ROLES.ADMIN,
     avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80",
     phone: "+91 99887 76655",
@@ -95,13 +95,13 @@ export const MOCK_USERS = [
 
 export const DEMO_CREDENTIALS = {
   user: {
-    email: "demo@wattguard.io",
+    email: "demo@wattvision.ai",
     password: "demo123",
     role: USER_ROLES.USER,
     name: "Demo User"
   },
   admin: {
-    email: "admin@wattguard.io",
+    email: "admin@wattvision.ai",
     password: "admin123",
     role: USER_ROLES.ADMIN,
     name: "System Administrator"
