@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { runMLInference } from '../utils/mlInferenceEngine';
+import { consumptionService } from '../services/consumptionService';
+import { APP_CONFIG } from '../utils/constants';
 
 const SimulatorContext = createContext(null);
 
@@ -30,6 +32,7 @@ export const SimulatorProvider = ({ children }) => {
 
   const [anomaliesCount, setAnomaliesCount] = useState(3);
   const timerRef = useRef(null);
+  const pendingBatchRef = useRef([]);
 
   // Simulation tick loop
   useEffect(() => {
@@ -103,6 +106,25 @@ export const SimulatorProvider = ({ children }) => {
         }];
         return next;
       });
+
+      // Forward telemetry to real backend if live mode is enabled
+      if (!APP_CONFIG.demoMode) {
+        pendingBatchRef.current.push({
+          timestamp: new Date().toISOString(),
+          kwh: newReading.consumption,
+          expectedBaselineKwh: newReading.expectedBaseline,
+          applianceName: appliances[0] || 'General Load',
+          location: 'Simulated Zone',
+          temperatureCelsius: 28.0,
+          isWeekend: false
+        });
+
+        if (pendingBatchRef.current.length >= 5) {
+          const batchToSend = [...pendingBatchRef.current];
+          pendingBatchRef.current = [];
+          consumptionService.createBatch(batchToSend).catch(() => {});
+        }
+      }
 
       // Clear scenario after tick
       if (activeAnomalyScenario) {
