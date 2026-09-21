@@ -47,6 +47,18 @@ def test_health_reports_model_loaded(client):
     assert r.json()["model_loaded"] is True
 
 
+def test_readiness_endpoint(client):
+    r = client.get("/ready")
+    assert r.status_code == 200
+    assert r.json()["status"] == "READY"
+
+
+def test_prometheus_metrics_endpoint(client):
+    r = client.get("/metrics")
+    assert r.status_code == 200
+    assert "wattvision_ml_prediction_requests_total" in r.text
+
+
 def test_model_info_has_real_metrics(client):
     info = client.get("/model/info").json()
     assert info["algorithm"] == "IsolationForest"
