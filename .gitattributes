@@ -1,0 +1,16 @@
+# GitHub Linguist Custom Overrides
+frontend/src/mock/** linguist-generated
+*.md linguist-documentation
+docs/** linguist-documentation
+scripts/** linguist-documentation
+*.sql linguist-detectable=true
+*.java linguist-detectable=true
+*.py linguist-detectable=true
+*.jsx linguist-detectable=true
+*.js linguist-detectable=true
+
+# Line Endings Normalization
+* text=auto
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+*.sh text eol=lf
