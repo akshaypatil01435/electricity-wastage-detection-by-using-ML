@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -25,13 +26,14 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
     private final List<String> allowedOrigins;
 
     public SecurityConfig(JwtAuthFilter jwtAuthFilter,
-                          @Value("${app.cors.allowed-origins:http://localhost:5173}") String allowedOrigins) {
+                          @Value("${app.cors.allowed-origins:http://localhost:5173,http://localhost:3000}") String allowedOrigins) {
         this.jwtAuthFilter = jwtAuthFilter;
         this.allowedOrigins = Arrays.stream(allowedOrigins.split(","))
                 .map(String::trim)
@@ -47,7 +49,18 @@ public class SecurityConfig {
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/api/health", "/api/auth/register", "/api/auth/login").permitAll()
+                        .requestMatchers(
+                                "/api/health",
+                                "/api/auth/register",
+                                "/api/auth/login",
+                                "/v3/api-docs/**",
+                                "/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/actuator/health",
+                                "/actuator/info",
+                                "/actuator/prometheus"
+                        ).permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .exceptionHandling(ex -> ex
@@ -77,7 +90,8 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(allowedOrigins);
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
+        config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept", "X-Requested-With"));
+        config.setExposedHeaders(List.of("Content-Disposition"));
         config.setMaxAge(3600L);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);

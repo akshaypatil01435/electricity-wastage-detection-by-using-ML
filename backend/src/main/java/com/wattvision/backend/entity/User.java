@@ -27,6 +27,15 @@ public class User {
     @Column(nullable = false)
     private boolean active = true;
 
+    @Column(name = "monthly_goal_kwh")
+    private Double monthlyGoalKWh = 450.0;
+
+    @Column(name = "electricity_tariff")
+    private Double electricityTariff = 7.50;
+
+    @Column(length = 30)
+    private String phone = "+91 98765 43210";
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
@@ -48,5 +57,11 @@ public class User {
     public void setRole(Role role) { this.role = role; }
     public boolean isActive() { return active; }
     public void setActive(boolean active) { this.active = active; }
+    public Double getMonthlyGoalKWh() { return monthlyGoalKWh; }
+    public void setMonthlyGoalKWh(Double monthlyGoalKWh) { this.monthlyGoalKWh = monthlyGoalKWh; }
+    public Double getElectricityTariff() { return electricityTariff; }
+    public void setElectricityTariff(Double electricityTariff) { this.electricityTariff = electricityTariff; }
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
     public Instant getCreatedAt() { return createdAt; }
 }
